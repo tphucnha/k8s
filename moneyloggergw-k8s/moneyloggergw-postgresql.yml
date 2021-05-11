@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: moneyloggergw-postgresql
+  namespace: default
+  labels:
+    app: moneyloggergw-postgresql
+type: Opaque
+data:
+  postgresql-password: MzY1MGY2ZGY3ZmQzYjY5YWU3ZGQ5NGQ5ZWJlNWZkZTkwMmI0NTU5N2EwZDc4MDYyNmY1OTJlZDU5ZTE4
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moneyloggergw-postgresql
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moneyloggergw-postgresql
+  template:
+    metadata:
+      labels:
+        app: moneyloggergw-postgresql
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+      containers:
+        - name: postgres
+          image: postgres:13.2
+          env:
+            - name: POSTGRES_USER
+              value: moneyloggergw
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: moneyloggergw-postgresql
+                  key: postgresql-password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moneyloggergw-postgresql
+  namespace: default
+spec:
+  selector:
+    app: moneyloggergw-postgresql
+  ports:
+    - port: 5432

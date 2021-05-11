@@ -1,0 +1,16 @@
+{
+  "generator-jhipster": {
+    "appsFolders": ["moneylogger", "moneyloggergw"],
+    "directoryPath": "../",
+    "serviceDiscoveryType": "eureka",
+    "jwtSecretKey": "ZDNlNmRiMGI1N2NiNmY3OTYyYjVhMjFjNWNlMjQ0NDgzNzE3ODFmOTdiZDAwNDI5NmFmYTY3YWNmYzY5Y2VjNDBiMDczOTZlZjA0ZGQyOTY4MjdiNTZkMzFiMTVmNWVkMWY4OA==",
+    "dockerRepositoryName": "tphucnha",
+    "dockerPushCommand": "docker push",
+    "kubernetesNamespace": "default",
+    "kubernetesServiceType": "LoadBalancer",
+    "kubernetesUseDynamicStorage": false,
+    "ingressDomain": "",
+    "monitoring": "no",
+    "istio": false
+  }
+}
